@@ -1,0 +1,26 @@
+name: brakeman
+base: core18
+version: 5.2.2
+summary: Ruby on Rails security vulnerability static analysis tool
+description: |
+  Brakeman is a command-line tool that analyzes the source code of Ruby on
+  Rails applications to find potential security vulnerabilities.
+
+grade: stable
+confinement: strict
+
+apps:
+  brakeman:
+    command: bin/brakeman
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  brakeman:
+    plugin: ruby
+    source: .
+    ruby-version: 2.6.10
+    gems:
+      - brakeman
+
