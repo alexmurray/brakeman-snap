@@ -19,11 +19,11 @@ parts:
   brakeman:
     plugin: ruby
     source: .
-    ruby-version: 2.6.10
+    ruby-version: 3.0.6
     gems:
       - brakeman
     override-build: |
       snapcraftctl build
-      snapcraftctl set-version $(RUBYLIB=$SNAPCRAFT_PART_INSTALL/lib/ruby/2.6.0:$(find $SNAPCRAFT_PART_INSTALL -name rbconfig.rb -exec dirname {} \;) GEM_HOME=$SNAPCRAFT_PART_INSTALL/lib/ruby/gems/2.6.0 $SNAPCRAFT_PART_INSTALL/bin/ruby $SNAPCRAFT_PART_INSTALL/bin/brakeman --version | awk '{print $2}')
+      snapcraftctl set-version $(RUBYLIB=$SNAPCRAFT_PART_INSTALL/lib/ruby/3.0.0:$(find $SNAPCRAFT_PART_INSTALL -name rbconfig.rb -exec dirname {} \;) GEM_HOME=$SNAPCRAFT_PART_INSTALL/lib/ruby/gems/3.0.0 $SNAPCRAFT_PART_INSTALL/bin/ruby $SNAPCRAFT_PART_INSTALL/bin/brakeman --version | awk '{print $2}')
       snapcraftctl set-grade stable
 
