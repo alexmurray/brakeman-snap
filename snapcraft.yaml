@@ -46,11 +46,14 @@ parts:
       - ruby-sexp-processor
       - ruby-slim
       - ruby-terminal-table
+      - ruby-unicode-display-width
     override-build: |
       craftctl default
       # don't try and flock() gemspecs since this is blocked by AppArmor - see
       # https://github.com/rubygems/rubygems/pull/5278 in particular
       # https://github.com/rubygems/rubygems/pull/5278/commits/27b682c81226838b1254ac5843a3f5b1cb20f076
       sed -i 's|!solaris_platform|win_platform|' $SNAPCRAFT_PART_INSTALL/usr/lib/ruby/vendor_ruby/rubygems.rb
+      # also fixup DEBIAN_DATA_DIRECTORY in ruby-unicode-display-width
+      sed -i "s|DEBIAN_DATA_DIRECTORY = '/usr|DEBIAN_DATA_DIRECTORY = ENV[\"SNAP\"] + '/usr|" $SNAPCRAFT_PART_INSTALL/usr/lib/ruby/vendor_ruby/unicode/display_width/constants.rb
 
 
