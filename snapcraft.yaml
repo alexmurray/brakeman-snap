@@ -1,5 +1,5 @@
 name: brakeman
-version: 7.0.2
+version: 7.1.1
 base: core24
 summary: Ruby on Rails security vulnerability static analysis tool
 adopt-info: brakeman
@@ -29,6 +29,7 @@ apps:
 parts:
   brakeman:
     source: https://github.com/presidentbeef/brakeman.git
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
     plugin: dump
     build-packages:
       - ruby
