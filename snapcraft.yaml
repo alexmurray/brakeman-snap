@@ -1,5 +1,5 @@
 name: brakeman
-version: 7.1.2
+version: 8.0.1
 base: core24
 summary: Ruby on Rails security vulnerability static analysis tool
 adopt-info: brakeman
