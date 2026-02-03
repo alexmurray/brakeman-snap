@@ -1,0 +1,16 @@
+summary: basic smoke test
+
+restore: |
+  rm -f brakeman.log
+
+execute: |
+  # run brakeman on test projects in HOME
+  cd $HOME
+
+  for project in brakeman/test/apps/*; do
+    brakeman --quiet --no-color --no-progress $project >& >(tee brakeman.log) || true
+
+    # and check we get some warnings
+    test $(grep "^Security Warnings: " brakeman.log | cut -c20-) -gt 0
+    rm -f brakeman.log
+  done
