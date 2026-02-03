@@ -38,7 +38,7 @@ parts:
       - racc
       - ruby
       - ruby-csv
-      - ruby-erubis
+      - ruby-erubi
       - ruby-haml
       - ruby-highline
       - ruby-parallel
@@ -57,4 +57,46 @@ parts:
       # also fixup DEBIAN_DATA_DIRECTORY in ruby-unicode-display-width
       sed -i "s|DEBIAN_DATA_DIRECTORY = '/usr|DEBIAN_DATA_DIRECTORY = ENV[\"SNAP\"] + '/usr|" $SNAPCRAFT_PART_INSTALL/usr/lib/ruby/vendor_ruby/unicode/display_width/constants.rb
 
+  reline:
+    plugin: dump
+    source: https://github.com/ruby/reline.git
+    source-tag: v0.6.3
+    build-packages:
+      - libffi-dev
+      - ruby
+      - ruby-bundler
+      - ruby-dev
+    override-build: |
+      bundle install
+      craftctl default
+    # don't stage some bits that conflict with the brakeman part
+    stage:
+      - -Gemfile
+      - -Gemfile.lock
+      - -README.md
+      - -Rakefile
 
+  prism:
+    plugin: dump
+    source: https://github.com/ruby/prism.git
+    source-tag: v1.9.0
+    build-packages:
+      - libyaml-dev
+      - ruby
+      - ruby-bundler
+      - ruby-dev
+      - make
+      - gcc
+    override-build: |
+      bundle install
+      bundle exec rake compile
+      craftctl default
+    # don't stage some bits that conflict with the brakeman part
+    stage:
+      - -CODE_OF_CONDUCT.md
+      - -CONTRIBUTING.md
+      - -Gemfile
+      - -Gemfile.lock
+      - -LICENSE.md
+      - -README.md
+      - -Rakefile
