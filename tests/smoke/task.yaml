@@ -1,16 +1,20 @@
 summary: basic smoke test
 
+prepare: |
+  apt install -y jq
+
 restore: |
-  rm -f brakeman.log
+  apt remove --purge -y jq
+  rm -f brakeman.json
 
 execute: |
   # run brakeman on test projects in HOME
   cd $HOME
 
   for project in brakeman/test/apps/*; do
-    brakeman --quiet --no-color --no-progress $project >& >(tee brakeman.log) || true
+    brakeman --quiet --format json $project >& >(tee brakeman.json) || true
 
     # and check we get some warnings
-    test $(grep "^Security Warnings: " brakeman.log | cut -c20-) -gt 0
-    rm -f brakeman.log
+    test $(jq -r '.scan_info.security_warnings' brakeman.json) -gt 0
+    rm -f brakeman.json
   done
